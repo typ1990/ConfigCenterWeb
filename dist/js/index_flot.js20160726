@@ -1,0 +1,83 @@
+/*@遮罩控制
+*
+* 2015/11/20
+* @chi.yong
+* */
+function ShowShelter() {
+    $('.shelter').show();//显示遮罩
+    $('html:not(.pop-layer,.little-pop-layer)').css({"overflow-y" :"hidden"});//禁止滚动条
+}
+function HideShelter() {
+    $('.shelter').hide();
+    $('html:not(.pop)').css({"overflow-y" :""});//放开滚动条
+}
+
+/*@显示DRPicker
+ * 解决select元素中DRPicker不显示问题。
+ * 使用方法：
+ * selectViewDRPicker('select元素ID','插件显示在此元素')
+ * ***viewElement必须是select外部的标签
+ * 2015/9
+ * @chi.yong
+ * */
+function selectViewDRPicker(element,viewElement){
+    $(element).change(function(){
+        if($(this).val()=="自定义"){
+            $(viewElement).data("daterangepicker").show();
+        }
+    });
+}
+
+/*@时间插件
+* 使用方法：
+* useDRPicker('插件显示在此元素','需要更改的文本');
+* 2015/9
+* @chi.yong
+* */
+function useDRPicker(element,changeText){//'#customer','.data_time'
+    $(element).daterangepicker(
+        {
+             //startDate: moment().startOf('day'),
+            //endDate: moment(),
+            //minDate: '01/01/2012',	//最小时间
+            //maxDate :'01/01/2099', //最大时间
+            //dateLimit : {
+            //    days : 30
+            //}, //起止时间的最大间隔
+            showDropdowns : true,
+            showWeekNumbers : false, //是否显示第几周
+            timePicker : false, //是否显示小时和分钟
+            timePickerIncrement : 60, //时间的增量，单位为分钟
+            timePicker12Hour : false, //是否使用12小时制来显示时间
+            opens : 'right', //日期选择框的弹出位置
+            buttonClasses : [ 'btn btn-default'],
+            applyClass : 'btn-small btn-primary blue',
+            cancelClass : 'btn-small',
+            format : 'YYYY-MM-DD', //控件中from和to 显示的日期格式(YYYY-MM-DD HH:mm:ss)
+            separator : ' - ',
+            locale : {
+                applyLabel : '确定',
+                cancelLabel : '取消',
+                fromLabel : '起始时间',
+                toLabel : '结束时间',
+                customRangeLabel : '自定义',
+                daysOfWeek : [ '日', '一', '二', '三', '四', '五', '六' ],
+                monthNames : [ '一月', '二月', '三月', '四月', '五月', '六月',
+                    '七月', '八月', '九月', '十月', '十一月', '十二月' ],
+                firstDay : 1
+            }
+        }, function(start, end, label) {//格式化日期显示框
+
+            if(changeText){
+                $(changeText).text(start.format('YYYY-MM-DD') + ' 至 ' + end.format('YYYY-MM-DD'));
+                SelectDateData(start.format('YYYY-MM-DD'),end.format('YYYY-MM-DD'));
+            }else {
+                return;
+            }
+        }
+	);
+
+}
+
+
+
